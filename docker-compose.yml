@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: blackjack-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: blackjack
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - blackjack-network
+
+  mongo:
+    image: mongo:6.0
+    container_name: blackjack-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: blackjack
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - blackjack-network
+
+volumes:
+  mysql_data:
+  mongo_data:
+
+networks:
+  blackjack-network:
+    driver: bridge
