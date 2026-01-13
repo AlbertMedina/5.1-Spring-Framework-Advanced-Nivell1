@@ -2,11 +2,10 @@ package cat.itacademy.blackjack.service;
 
 import cat.itacademy.blackjack.dto.PlayerDTO;
 import cat.itacademy.blackjack.dto.UpdatePlayerDTO;
+import cat.itacademy.blackjack.exception.PlayerNotFoundException;
 import cat.itacademy.blackjack.model.Player;
 import cat.itacademy.blackjack.repository.PlayerRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO updatePlayerName(Long id, UpdatePlayerDTO updatePlayerDTO) {
-        Player player = playerRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player " + id + " not found"));
+        Player player = playerRepository.findById(id).orElseThrow(() -> new PlayerNotFoundException(id));
         player.setName(updatePlayerDTO.name());
         Player savedPlayer = playerRepository.save(player);
         return new PlayerDTO(savedPlayer.getId(), savedPlayer.getName(), savedPlayer.getNumberOfWins(), savedPlayer.getNumberOfTies(), savedPlayer.getNumberOfLosses());

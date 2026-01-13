@@ -6,4 +6,5 @@ public record PlayerDTO(
         int numberOfWins,
         int numberOfTies,
         int numberOfLosses
-) {}
+) {
+}
