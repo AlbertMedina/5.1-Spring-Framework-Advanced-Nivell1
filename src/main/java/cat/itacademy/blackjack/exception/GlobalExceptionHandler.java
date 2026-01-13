@@ -32,8 +32,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(PlayerNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePlayerNotFound(
-            PlayerNotFoundException e) {
+    public ResponseEntity<ErrorResponse> handlePlayerNotFound(PlayerNotFoundException e) {
 
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
@@ -51,7 +50,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                "Internal server error",
+                "Internal server error: " + e.getMessage(),
                 LocalDateTime.now()
         );
 
