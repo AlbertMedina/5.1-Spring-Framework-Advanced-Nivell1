@@ -11,18 +11,15 @@ public class Player {
     private Long id;
 
     private String name;
-    private int numberOfWins;
-    private int numberOfTies;
-    private int numberOfLosses;
+    private int numberOfWins = 0;
+    private int numberOfTies = 0;
+    private int numberOfLosses = 0;
 
     public Player() {
     }
 
     public Player(String name) {
         this.name = name;
-        this.numberOfWins = 0;
-        this.numberOfTies = 0;
-        this.numberOfLosses = 0;
     }
 
     public Long getId() {
