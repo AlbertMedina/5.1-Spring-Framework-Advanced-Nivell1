@@ -30,4 +30,9 @@ public class PlayerServiceImpl implements PlayerService {
     public List<PlayerDTO> getPlayersRanking() {
         return playerRepository.findAllByOrderByNumberOfWinsDesc().stream().map(p -> new PlayerDTO(p.getId(), p.getName(), p.getNumberOfWins(), p.getNumberOfTies(), p.getNumberOfLosses())).toList();
     }
+
+    @Override
+    public Player getOrCreatePlayer(String playerName) {
+        return playerRepository.findByNameIgnoreCase(playerName).orElseGet(() -> playerRepository.save(new Player(playerName)));
+    }
 }

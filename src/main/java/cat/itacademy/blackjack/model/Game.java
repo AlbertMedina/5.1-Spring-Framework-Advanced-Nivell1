@@ -45,4 +45,14 @@ public class Game {
     public Hand getDealerHand() {
         return dealerHand;
     }
+
+    public static Game newGame(Long playerId) {
+
+        List<Card> shoe = Card.newShuffledDeck();
+
+        Hand playerHand = Hand.newHand(shoe);
+        Hand dealerHand = Hand.newHand(shoe);
+
+        return new Game(playerId, shoe, playerHand, dealerHand);
+    }
 }
