@@ -1,7 +1,7 @@
 package cat.itacademy.blackjack.repository;
 
 import cat.itacademy.blackjack.model.Game;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-public interface GameRepository extends MongoRepository<Game, String> {
+public interface GameRepository extends ReactiveMongoRepository<Game, String> {
 }
