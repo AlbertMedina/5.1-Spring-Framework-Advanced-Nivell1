@@ -1,5 +1,6 @@
 package cat.itacademy.blackjack.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
@@ -41,6 +42,6 @@ public class Hand {
     }
 
     public static Hand newHand(List<Card> shoe) {
-        return new Hand(List.of(shoe.removeFirst(), shoe.removeFirst()));
+        return new Hand(new ArrayList<>(List.of(shoe.removeFirst(), shoe.removeFirst())));
     }
 }
