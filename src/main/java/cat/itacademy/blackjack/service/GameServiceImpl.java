@@ -47,7 +47,7 @@ public class GameServiceImpl implements GameService {
                     switch (action) {
                         case HIT -> g.hit();
                         case STAND -> g.stand();
-                        default -> throw new InvalidGameActionException(action);
+                        default -> throw new InvalidGameActionException(action, "Unsupported game action");
                     }
 
                     if (g.getState() == GameState.FINISHED) {

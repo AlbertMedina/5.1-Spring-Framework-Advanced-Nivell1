@@ -61,7 +61,7 @@ public class Game {
 
     public void hit() {
         if (state == GameState.FINISHED) {
-            throw new InvalidGameActionException(GameAction.HIT);
+            throw new InvalidGameActionException(GameAction.HIT, "The current game is already finished");
         }
 
         playerHand.pickCard(shoe);
@@ -73,7 +73,7 @@ public class Game {
 
     public void stand() {
         if (state == GameState.FINISHED) {
-            throw new InvalidGameActionException(GameAction.STAND);
+            throw new InvalidGameActionException(GameAction.STAND, "The current game is already finished");
         }
 
         dealerPlay();
