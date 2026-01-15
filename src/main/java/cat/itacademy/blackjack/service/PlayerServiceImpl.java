@@ -23,6 +23,7 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = playerRepository.findById(id).orElseThrow(() -> new PlayerNotFoundException(id));
         player.setName(updatePlayerDTO.name());
         Player savedPlayer = playerRepository.save(player);
+        
         return new PlayerDTO(savedPlayer.getId(), savedPlayer.getName(), savedPlayer.getNumberOfWins(), savedPlayer.getNumberOfTies(), savedPlayer.getNumberOfLosses());
     }
 

@@ -34,6 +34,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public Mono<GameDTO> getGameInfo(String id) {
         Mono<Game> game = gameRepository.findById(id).switchIfEmpty(Mono.error(new GameNotFoundException(id)));
+        
         return game.map(g -> new GameDTO(g.getId(),
                 g.getPlayerId(),
                 new HandDTO(g.getPlayerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList()),

@@ -17,6 +17,26 @@ public class Hand {
         return List.copyOf(cards);
     }
 
+    public int getValue() {
+        int value = 0;
+        int numberOfAces = 0;
+
+        for (Card card : cards) {
+            value += card.getValue();
+
+            if (card.getRank() == Rank.ACE) {
+                numberOfAces++;
+            }
+        }
+
+        while (value > 21 && numberOfAces > 0) {
+            value -= 10;
+            numberOfAces--;
+        }
+
+        return value;
+    }
+
     public static Hand newHand(List<Card> shoe) {
         return new Hand(List.of(shoe.removeFirst(), shoe.removeFirst()));
     }

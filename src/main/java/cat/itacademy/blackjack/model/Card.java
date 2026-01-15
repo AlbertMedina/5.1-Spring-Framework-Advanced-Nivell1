@@ -25,6 +25,10 @@ public class Card {
         return suit;
     }
 
+    public int getValue() {
+        return rank.getValue();
+    }
+
     public static List<Card> newShuffledDeck() {
         List<Card> deck = new ArrayList<>();
         for (Rank rank : Rank.values()) {
