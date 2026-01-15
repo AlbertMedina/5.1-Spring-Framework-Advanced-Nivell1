@@ -28,7 +28,7 @@ public class PlayerController {
         return ResponseEntity.ok(player);
     }
 
-    @Operation(summary = "Get players ranking")
+    @Operation(summary = "Get the ranking of players by number of wins")
     @ApiResponse(responseCode = "200", description = "Player ranking retrieved successfully")
     @GetMapping("/ranking")
     public ResponseEntity<List<PlayerDTO>> getPlayersRanking() {
