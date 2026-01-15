@@ -3,6 +3,7 @@ package cat.itacademy.blackjack.service;
 import cat.itacademy.blackjack.dto.*;
 import cat.itacademy.blackjack.exception.GameNotFoundException;
 import cat.itacademy.blackjack.exception.InvalidGameActionException;
+import cat.itacademy.blackjack.mapper.GameMapper;
 import cat.itacademy.blackjack.model.Game;
 import cat.itacademy.blackjack.model.GameAction;
 import cat.itacademy.blackjack.model.Player;
@@ -27,20 +28,14 @@ public class GameServiceImpl implements GameService {
 
         Game game = Game.newGame(player.getId());
 
-        return gameRepository.save(game).map(g -> new GameDTO(g.getId(),
-                g.getPlayerId(),
-                new HandDTO(g.getPlayerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList()),
-                new HandDTO(g.getDealerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList())));
+        return gameRepository.save(game).map(GameMapper::toDto);
     }
 
     @Override
     public Mono<GameDTO> getGameInfo(String id) {
         Mono<Game> game = gameRepository.findById(id).switchIfEmpty(Mono.error(new GameNotFoundException(id)));
 
-        return game.map(g -> new GameDTO(g.getId(),
-                g.getPlayerId(),
-                new HandDTO(g.getPlayerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList()),
-                new HandDTO(g.getDealerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList())));
+        return game.map(GameMapper::toDto);
     }
 
     @Override
@@ -62,10 +57,7 @@ public class GameServiceImpl implements GameService {
             return gameRepository.save(g);
         });
 
-        return updatedGame.map(g -> new GameDTO(g.getId(),
-                g.getPlayerId(),
-                new HandDTO(g.getPlayerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList()),
-                new HandDTO(g.getDealerHand().getCards().stream().map(c -> new CardDTO(c.getRank(), c.getSuit())).toList())));
+        return updatedGame.map(GameMapper::toDto);
     }
 
     @Override
