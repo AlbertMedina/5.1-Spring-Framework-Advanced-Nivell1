@@ -23,7 +23,6 @@ public class Hand {
 
         for (Card card : cards) {
             value += card.getValue();
-
             if (card.getRank() == Rank.ACE) {
                 numberOfAces++;
             }

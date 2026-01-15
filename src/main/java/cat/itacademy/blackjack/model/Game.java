@@ -46,6 +46,14 @@ public class Game {
         return dealerHand;
     }
 
+    public void hit() {
+
+    }
+
+    public void stand() {
+
+    }
+
     public static Game newGame(Long playerId) {
 
         List<Card> shoe = Card.newShuffledDeck();
