@@ -25,39 +25,35 @@ public class GameServiceImpl implements GameService {
     @Override
     public Mono<GameDTO> createGame(CreateGameDTO createGameDTO) {
         Player player = playerService.getOrCreatePlayer(createGameDTO.playerName());
-
-        Game game = Game.newGame(player.getId());
-
-        return gameRepository.save(game).map(GameMapper::toDto);
+        return gameRepository.save(Game.newGame(player.getId()))
+                .map(GameMapper::toDto);
     }
 
     @Override
     public Mono<GameDTO> getGameInfo(String id) {
-        Mono<Game> game = gameRepository.findById(id).switchIfEmpty(Mono.error(new GameNotFoundException(id)));
-
-        return game.map(GameMapper::toDto);
+        return gameRepository.findById(id)
+                .switchIfEmpty(Mono.error(new GameNotFoundException(id)))
+                .map(GameMapper::toDto);
     }
 
     @Override
     public Mono<GameDTO> playGame(String id, PlayGameDTO playGameDTO) {
-        Mono<Game> game = gameRepository.findById(id).switchIfEmpty(Mono.error(new GameNotFoundException(id)));
+        return gameRepository.findById(id)
+                .switchIfEmpty(Mono.error(new GameNotFoundException(id)))
+                .flatMap(g -> {
+                    GameAction action = playGameDTO.action();
 
-        Mono<Game> updatedGame = game.flatMap(g -> {
+                    if (action == GameAction.HIT) {
+                        g.hit();
+                    } else if (action == GameAction.STAND) {
+                        g.stand();
+                    } else {
+                        throw new InvalidGameActionException(action);
+                    }
 
-            GameAction action = playGameDTO.action();
-
-            if (action == GameAction.HIT) {
-                g.hit();
-            } else if (action == GameAction.STAND) {
-                g.stand();
-            } else {
-                throw new InvalidGameActionException(action);
-            }
-
-            return gameRepository.save(g);
-        });
-
-        return updatedGame.map(GameMapper::toDto);
+                    return gameRepository.save(g);
+                })
+                .map(GameMapper::toDto);
     }
 
     @Override
