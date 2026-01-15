@@ -22,7 +22,7 @@ public class GameController {
         return gameService.createGame(createGameDTO);
     }
 
-    @PutMapping("/game/{id}/delete")
+    @PutMapping("/game/{id}/play")
     public Mono<GameDTO> playGame(@PathVariable String id, @RequestBody @Valid PlayGameDTO playGameDTO) {
         return gameService.playGame(id, playGameDTO);
     }
