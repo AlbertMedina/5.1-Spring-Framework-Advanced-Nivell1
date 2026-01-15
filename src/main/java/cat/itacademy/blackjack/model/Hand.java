@@ -36,6 +36,10 @@ public class Hand {
         return value;
     }
 
+    public void pickCard(List<Card> shoe) {
+        cards.add(shoe.removeFirst());
+    }
+
     public static Hand newHand(List<Card> shoe) {
         return new Hand(List.of(shoe.removeFirst(), shoe.removeFirst()));
     }

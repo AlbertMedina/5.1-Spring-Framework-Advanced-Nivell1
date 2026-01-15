@@ -4,6 +4,7 @@ import cat.itacademy.blackjack.dto.PlayerDTO;
 import cat.itacademy.blackjack.dto.UpdatePlayerDTO;
 import cat.itacademy.blackjack.exception.PlayerNotFoundException;
 import cat.itacademy.blackjack.mapper.PlayerMapper;
+import cat.itacademy.blackjack.model.GameResult;
 import cat.itacademy.blackjack.model.Player;
 import cat.itacademy.blackjack.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class PlayerServiceImpl implements PlayerService {
                 .orElseThrow(() -> new PlayerNotFoundException(id));
 
         player.setName(updatePlayerDTO.name());
-        
+
         Player savedPlayer = playerRepository.save(player);
         return PlayerMapper.toDto(savedPlayer);
     }
@@ -42,5 +43,19 @@ public class PlayerServiceImpl implements PlayerService {
     public Player getOrCreatePlayer(String playerName) {
         return playerRepository.findByNameIgnoreCase(playerName)
                 .orElseGet(() -> playerRepository.save(new Player(playerName)));
+    }
+
+    @Override
+    public void updateStats(Long playerId, GameResult result) {
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow(() -> new PlayerNotFoundException(playerId));
+
+        switch (result) {
+            case PLAYER_WINS -> player.win();
+            case TIE -> player.tie();
+            case PLAYER_LOSES -> player.lose();
+        }
+
+        playerRepository.save(player);
     }
 }

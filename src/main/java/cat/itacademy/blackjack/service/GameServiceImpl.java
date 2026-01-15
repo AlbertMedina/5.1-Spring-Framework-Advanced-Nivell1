@@ -6,6 +6,7 @@ import cat.itacademy.blackjack.exception.InvalidGameActionException;
 import cat.itacademy.blackjack.mapper.GameMapper;
 import cat.itacademy.blackjack.model.Game;
 import cat.itacademy.blackjack.model.GameAction;
+import cat.itacademy.blackjack.model.GameState;
 import cat.itacademy.blackjack.model.Player;
 import cat.itacademy.blackjack.repository.GameRepository;
 import org.springframework.stereotype.Service;
@@ -43,12 +44,14 @@ public class GameServiceImpl implements GameService {
                 .flatMap(g -> {
                     GameAction action = playGameDTO.action();
 
-                    if (action == GameAction.HIT) {
-                        g.hit();
-                    } else if (action == GameAction.STAND) {
-                        g.stand();
-                    } else {
-                        throw new InvalidGameActionException(action);
+                    switch (action) {
+                        case HIT -> g.hit();
+                        case STAND -> g.stand();
+                        default -> throw new InvalidGameActionException(action);
+                    }
+
+                    if (g.getState() == GameState.FINISHED) {
+                        playerService.updateStats(g.getPlayerId(), g.getResult());
                     }
 
                     return gameRepository.save(g);

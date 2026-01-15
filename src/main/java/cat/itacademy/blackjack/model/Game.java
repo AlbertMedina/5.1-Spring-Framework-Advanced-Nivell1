@@ -1,5 +1,6 @@
 package cat.itacademy.blackjack.model;
 
+import cat.itacademy.blackjack.exception.InvalidGameActionException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,15 +16,19 @@ public class Game {
     private List<Card> shoe;
     private Hand playerHand;
     private Hand dealerHand;
+    private GameState state;
+    private GameResult result;
 
     public Game() {
     }
 
-    public Game(Long playerId, List<Card> shoe, Hand playerHand, Hand dealerHand) {
+    public Game(Long playerId, List<Card> shoe, Hand playerHand, Hand dealerHand, GameState state, GameResult result) {
         this.playerId = playerId;
         this.shoe = shoe;
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
+        this.state = state;
+        this.result = result;
     }
 
     public String getId() {
@@ -46,21 +51,65 @@ public class Game {
         return dealerHand;
     }
 
-    public void hit() {
+    public GameState getState() {
+        return state;
+    }
 
+    public GameResult getResult() {
+        return result;
+    }
+
+    public void hit() {
+        if (state == GameState.FINISHED) {
+            throw new InvalidGameActionException(GameAction.HIT);
+        }
+
+        playerHand.pickCard(shoe);
+
+        if (playerHand.getValue() > 21) {
+            gameOver();
+        }
     }
 
     public void stand() {
+        if (state == GameState.FINISHED) {
+            throw new InvalidGameActionException(GameAction.STAND);
+        }
 
+        dealerPlay();
+    }
+
+    public void dealerPlay() {
+        while (dealerHand.getValue() < 17) {
+            dealerHand.pickCard(shoe);
+        }
+        gameOver();
+    }
+
+    public void gameOver() {
+        int playerHandValue = playerHand.getValue();
+        int dealerHandValue = dealerHand.getValue();
+
+        if (playerHandValue > 21) {
+            result = GameResult.PLAYER_LOSES;
+        } else if (dealerHandValue > 21) {
+            result = GameResult.PLAYER_WINS;
+        } else if (playerHandValue > dealerHandValue) {
+            result = GameResult.PLAYER_WINS;
+        } else if (dealerHandValue > playerHandValue) {
+            result = GameResult.PLAYER_LOSES;
+        } else {
+            result = GameResult.TIE;
+        }
+
+        state = GameState.FINISHED;
     }
 
     public static Game newGame(Long playerId) {
-
         List<Card> shoe = Card.newShuffledDeck();
-
         Hand playerHand = Hand.newHand(shoe);
         Hand dealerHand = Hand.newHand(shoe);
 
-        return new Game(playerId, shoe, playerHand, dealerHand);
+        return new Game(playerId, shoe, playerHand, dealerHand, GameState.IN_PROGRESS, null);
     }
 }

@@ -45,4 +45,16 @@ public class Player {
     public int getNumberOfLosses() {
         return numberOfLosses;
     }
+
+    public void win() {
+        numberOfWins++;
+    }
+
+    public void tie() {
+        numberOfTies++;
+    }
+
+    public void lose() {
+        numberOfLosses++;
+    }
 }
