@@ -3,6 +3,7 @@ package cat.itacademy.blackjack.service;
 import cat.itacademy.blackjack.dto.PlayerDTO;
 import cat.itacademy.blackjack.dto.UpdatePlayerDTO;
 import cat.itacademy.blackjack.exception.PlayerNotFoundException;
+import cat.itacademy.blackjack.mapper.PlayerMapper;
 import cat.itacademy.blackjack.model.Player;
 import cat.itacademy.blackjack.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -20,20 +21,26 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO updatePlayerName(Long id, UpdatePlayerDTO updatePlayerDTO) {
-        Player player = playerRepository.findById(id).orElseThrow(() -> new PlayerNotFoundException(id));
+        Player player = playerRepository.findById(id)
+                .orElseThrow(() -> new PlayerNotFoundException(id));
+
         player.setName(updatePlayerDTO.name());
-        Player savedPlayer = playerRepository.save(player);
         
-        return new PlayerDTO(savedPlayer.getId(), savedPlayer.getName(), savedPlayer.getNumberOfWins(), savedPlayer.getNumberOfTies(), savedPlayer.getNumberOfLosses());
+        Player savedPlayer = playerRepository.save(player);
+        return PlayerMapper.toDto(savedPlayer);
     }
 
     @Override
     public List<PlayerDTO> getPlayersRanking() {
-        return playerRepository.findAllByOrderByNumberOfWinsDesc().stream().map(p -> new PlayerDTO(p.getId(), p.getName(), p.getNumberOfWins(), p.getNumberOfTies(), p.getNumberOfLosses())).toList();
+        return playerRepository.findAllByOrderByNumberOfWinsDesc()
+                .stream()
+                .map(PlayerMapper::toDto)
+                .toList();
     }
 
     @Override
     public Player getOrCreatePlayer(String playerName) {
-        return playerRepository.findByNameIgnoreCase(playerName).orElseGet(() -> playerRepository.save(new Player(playerName)));
+        return playerRepository.findByNameIgnoreCase(playerName)
+                .orElseGet(() -> playerRepository.save(new Player(playerName)));
     }
 }
