@@ -2,7 +2,6 @@ package cat.itacademy.blackjack.controller;
 
 import cat.itacademy.blackjack.dto.*;
 import cat.itacademy.blackjack.exception.GameNotFoundException;
-import cat.itacademy.blackjack.exception.PlayerNotFoundException;
 import cat.itacademy.blackjack.model.GameAction;
 import cat.itacademy.blackjack.model.Rank;
 import cat.itacademy.blackjack.model.Suit;
