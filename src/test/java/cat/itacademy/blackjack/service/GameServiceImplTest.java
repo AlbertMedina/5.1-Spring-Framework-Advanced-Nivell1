@@ -15,8 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -123,7 +122,7 @@ public class GameServiceImplTest {
                 .assertNext(dto -> {
                     assertEquals(2, dto.playerHand().cards().size());
                     assertEquals(GameState.FINISHED, dto.state());
-                    assertNotNull(dto.result());
+                    assertNotEquals(GameResult.UNDETERMINED, dto.result());
                 })
                 .verifyComplete();
 

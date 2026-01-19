@@ -110,6 +110,6 @@ public class Game {
         Hand playerHand = Hand.newHand(shoe);
         Hand dealerHand = Hand.newHand(shoe);
 
-        return new Game(playerId, shoe, playerHand, dealerHand, GameState.IN_PROGRESS, null);
+        return new Game(playerId, shoe, playerHand, dealerHand, GameState.IN_PROGRESS, GameResult.UNDETERMINED);
     }
 }
