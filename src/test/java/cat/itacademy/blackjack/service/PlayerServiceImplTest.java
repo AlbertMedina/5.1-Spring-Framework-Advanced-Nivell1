@@ -69,7 +69,7 @@ public class PlayerServiceImplTest {
 
         List<Player> players = List.of(player1, player2, player3);
 
-        when(playerRepository.findAllByOrderByNumberOfWinsDesc())
+        when(playerRepository.findAllByOrderByNumberOfWinsDescNumberOfTiesDescNumberOfLossesAsc())
                 .thenReturn(players);
 
         List<PlayerDTO> result = playerService.getPlayersRanking();
@@ -118,7 +118,7 @@ public class PlayerServiceImplTest {
                 .thenReturn(player);
 
         playerService.updateStats(1L, GameResult.PLAYER_WINS);
-        
+
         assertEquals(1, player.getNumberOfWins());
     }
 

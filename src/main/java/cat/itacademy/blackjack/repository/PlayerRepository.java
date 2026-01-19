@@ -10,5 +10,5 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     Optional<Player> findByNameIgnoreCase(String name);
 
-    List<Player> findAllByOrderByNumberOfWinsDesc();
+    List<Player> findAllByOrderByNumberOfWinsDescNumberOfTiesDescNumberOfLossesAsc();
 }

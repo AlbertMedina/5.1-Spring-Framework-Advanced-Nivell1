@@ -33,7 +33,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<PlayerDTO> getPlayersRanking() {
-        return playerRepository.findAllByOrderByNumberOfWinsDesc()
+        return playerRepository.findAllByOrderByNumberOfWinsDescNumberOfTiesDescNumberOfLossesAsc()
                 .stream()
                 .map(PlayerMapper::toDto)
                 .toList();
