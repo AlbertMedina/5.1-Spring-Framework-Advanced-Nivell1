@@ -122,6 +122,8 @@ public class GameServiceImplTest {
         StepVerifier.create(result)
                 .assertNext(dto -> {
                     assertEquals(2, dto.playerHand().cards().size());
+                    assertEquals(GameState.FINISHED, dto.state());
+                    assertNotNull(dto.result());
                 })
                 .verifyComplete();
 
