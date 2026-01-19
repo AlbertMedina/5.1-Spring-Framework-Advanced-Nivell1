@@ -26,6 +26,22 @@ services:
     networks:
       - blackjack-network
 
+  api:
+    image: blackjack-api
+    container_name: blackjack-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - mongo
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blackjack
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/blackjack
+    networks:
+      - blackjack-network
+
 volumes:
   mysql_data:
   mongo_data:
