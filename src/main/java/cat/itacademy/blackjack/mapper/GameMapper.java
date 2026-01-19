@@ -14,7 +14,9 @@ public class GameMapper {
                 game.getId(),
                 game.getPlayerId(),
                 handToDto(game.getPlayerHand()),
-                handToDto(game.getDealerHand())
+                handToDto(game.getDealerHand()),
+                game.getState(),
+                game.getResult()
         );
     }
 

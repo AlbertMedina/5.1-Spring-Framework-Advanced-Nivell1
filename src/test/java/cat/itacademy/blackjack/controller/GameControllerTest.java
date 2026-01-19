@@ -3,6 +3,7 @@ package cat.itacademy.blackjack.controller;
 import cat.itacademy.blackjack.dto.*;
 import cat.itacademy.blackjack.exception.GameNotFoundException;
 import cat.itacademy.blackjack.model.GameAction;
+import cat.itacademy.blackjack.model.GameState;
 import cat.itacademy.blackjack.model.Rank;
 import cat.itacademy.blackjack.model.Suit;
 import cat.itacademy.blackjack.service.GameService;
@@ -47,7 +48,9 @@ public class GameControllerTest {
                                 new CardDTO(Rank.FOUR, Suit.CLUBS),
                                 new CardDTO(Rank.QUEEN, Suit.HEARTS)
                         ))
-                )
+                ),
+                GameState.IN_PROGRESS,
+                null
         );
 
         when(gameService.createGame(request))
@@ -83,7 +86,9 @@ public class GameControllerTest {
                                 new CardDTO(Rank.FOUR, Suit.CLUBS),
                                 new CardDTO(Rank.QUEEN, Suit.HEARTS)
                         ))
-                )
+                ),
+                GameState.IN_PROGRESS,
+                null
         );
 
         when(gameService.playGame("1", request))
@@ -132,7 +137,9 @@ public class GameControllerTest {
                                 new CardDTO(Rank.FOUR, Suit.CLUBS),
                                 new CardDTO(Rank.QUEEN, Suit.HEARTS)
                         ))
-                )
+                ),
+                GameState.IN_PROGRESS,
+                null
         );
 
         when(gameService.getGameInfo("1"))
