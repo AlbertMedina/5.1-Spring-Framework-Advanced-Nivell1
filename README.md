@@ -6,6 +6,15 @@ The API handles players and game sessions, while enforcing the rules of Blackjac
 Game data is persisted in MongoDB (Reactive), and player information and rankings are stored in MySQL (JPA).  
 It exposes endpoints for creating and deleting games, playing rounds, managing players, and retrieving player rankings.
 
+| Method | Endpoint | Description | Request Body |
+|--------|----------|-------------|--------------|
+| POST   | /game/new | Create a new Blackjack game | `{ "playerName": "John" }` |
+| GET    | /game/{id} | Get game information | N/A |
+| POST   | /game/{id}/play | Play an existing game | `{ "action": "HIT" }` |
+| DELETE | /game/{id}/delete | Delete an existing game | N/A |
+| GET    | /ranking | Get the ranking of players by number of wins | N/A |
+| PUT    | /player/{id} | Update player name | `{ "name": "John" }` |
+
 ## Technologies used
 - Oracle OpenJDK 21.0.8
 - Spring Boot 3.5.8
