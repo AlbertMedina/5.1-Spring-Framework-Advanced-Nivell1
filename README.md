@@ -52,7 +52,7 @@ docker build -t blackjack-api .
 docker-compose up
 ```
 This will start MongoDB, MySQL and the Spring Boot API.
-The API will be available at
+The API will be available at:
 ```
 http://localhost:8080
 ```
