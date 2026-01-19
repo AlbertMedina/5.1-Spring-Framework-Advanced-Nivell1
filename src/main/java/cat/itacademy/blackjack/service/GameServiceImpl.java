@@ -44,6 +44,10 @@ public class GameServiceImpl implements GameService {
                 .flatMap(g -> {
                     GameAction action = playGameDTO.action();
 
+                    if (action == null) {
+                        throw new InvalidGameActionException(null, "Unsupported game action");
+                    }
+
                     switch (action) {
                         case HIT -> g.hit();
                         case STAND -> g.stand();
